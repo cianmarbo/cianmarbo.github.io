@@ -3,6 +3,11 @@
     src: url(fonts/Nabla/Nabla-Regular.ttf);
 }
 
+@font-face {
+    font-family: VT323;
+    src: url(fonts/VT323/VT323-Regular.ttf);
+}
+
 .title {
     margin-left: 5%;
     font-size: 32px;
@@ -42,3 +47,29 @@
     width: 100px;
 }
 
+.hidden {
+    display: none;
+}
+
+.menu-animated {
+    margin-top: 5%;
+    margin-left: 5%;
+    border: 2px solid black;
+    border-radius: 7px;
+    font-family: VT323;
+    font-size: 24px;
+    text-align: center;
+    width: 100px;
+    position: relative;
+    animation: mymove 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes mymove {
+    from {
+        top: -400px;
+    }
+    to {
+        top: 0px;
+    }
+}
