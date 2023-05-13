@@ -36,7 +36,7 @@
     color: white;
 }
 
-.menu {
+/* .menu {
     margin-top: 5%;
     margin-left: 5%;
     border: 2px solid black;
@@ -45,7 +45,7 @@
     font-size: 24px;
     text-align: center;
     width: 100px;
-}
+} */
 
 .hidden {
     display: none;
@@ -54,20 +54,30 @@
 .site-container {
     display: flex;
     flex-direction: row;
+    gap: 20px;
+}
+
+.menu-container {
+    margin-top: 0%;
+    margin-left: 5%;
+}
+
+.text-box-container {
+    margin-top: 0%;
 }
 
 .menu-animated {
-    margin-top: 5%;
-    margin-left: 5%;
     border: 2px solid black;
     border-radius: 7px;
     font-family: VT323;
     font-size: 24px;
     text-align: center;
-    width: 100px;
+    width: 90px;
     position: relative;
-    animation: mymove 1s;
+    animation: mymove 0.2s;
     animation-fill-mode: forwards;
+    /* background-color: crimson; */
+    box-shadow: 5px 5px;
 }
 
 @keyframes mymove {
@@ -79,11 +89,36 @@
     }
 }
 
+.menu-animated-inverse {
+    border: 2px solid black;
+    border-radius: 7px;
+    font-family: VT323;
+    font-size: 24px;
+    text-align: center;
+    width: 90px;
+    position: relative;
+    animation: mymoveback 0.3s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes mymoveback {
+    from {
+        top: 0px;
+    }
+    to {
+        top: -1000px;
+    }
+}
+
 .rectangle {
+    font-family: "Lucida Console", Courier, monospace;
+    font-size: 13px;
     background-color: black;
     color: white;
-    border-radius: 10px;
+    border-radius: 7px;
     padding: 20px;
-    width: 400px;
-    margin-left: 400px;
+    width: 80%;
+    height: 300px;
+    overflow: auto;
+    /* transition: width 0.3s, height 0.3s; */
 }

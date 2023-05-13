@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="styles.css"/></link>
     </head>
     <body>
-        <div id="myButton" class="title" onclick="handleButtonClick()">
+        <div id="myButton" class="title">
             <h1>hexafun</h1>
         </div>
         <div class="sub-title">
@@ -13,34 +13,114 @@
         </div>
 
         <div class="site-container">
-        <div id="myMenu" class="hidden">
-            <div class="item1">
-                <p>/home</p>
+            <div class="menu-container">
+                <div id="myMenu" class="hidden">
+                    <div class="item1">
+                        <p>/home</p>
+                    </div>
+                    <div class="item1">
+                        <p>/resume</p>
+                    </div>
+                    <div class="item1">
+                        <p>/projects</p>
+                    </div>
+                    <div class="item1">
+                        <p>/blog</p>
+                    </div>
+                </div>
             </div>
-            <div class="item1">
-                <p>/resume</p>
+            <div class="text-box-container">
+                <div class="rectangle">
+                    <p>I’ve always enjoyed messing around with old Operating Systems, trying to get them to run on hardware they weren’t designed for, emulating obscure ones, etc. Today I remembered that a few years back I successfully got the Mac OS X Public Beta, originally released for a limited trial in 2000, running in QEMU, so I’ve decided to put together this little post on how you too can successfully emulate this classic version of Mac OS X.
+
+                        Before we start, you’ll want to grab a Mac OS X Public Beta ISO file. I won’t be posting any links here, because copyright and all that jazz, but as I’m feeling nice one site I do recommend for stuff like this is “WinWorldPC”, which is a site that hosts a multitude of files for various classic Operating Systems. You’ll want to grab a copy of both the Public Beta and a copy of Mac OS X 10.1 or 10.2 if you can, for reasons that will become clear later on.
+                        
+                        Once you have successfully downloaded your ISO file, you’ll want to open up a Terminal window (I’m assuming you know the basics here, and if you’re not sure what QEMU is there are plenty of other really good resources online on how to install and set it up etc).
+                        
+                        First up, we’ll want to create a disk image file. This is where we will be installing Mac OS X. In order to do this, feel free to copy and paste the command below:
+                        
+                        $ qemu-img create -f raw -o size=4G MacOS.img
+                        This will create an empty 4GB disk image file in whatever directory you’re currently in called MacOS.img.
+                        
+                        Following this, we’ll need to boot either our Mac OS X 10.1 or Mac OS X 10.2 ISO, whichever one you’ve managed to get your hands on. The reason we need to do this is due to the fact in order for the Public Beta installer to recognise and allow us to install on this disk image, we need to properly format the disk. Unfortunately, there is no way to do this during the Public Beta installation process, which is why we need to launch the installation process for OS X 10.1/10.2, which will allow us to format the disk.
+                        
+                        To do this, we need to boot up our ISO file for OS X 10.1/10.2, and also mount the disk image we just created, using the command below:
+                        
+                        $ qemu-system-ppc -L openbios-ppc -boot d -M mac99 -m 1024 -prom-env 'auto-boot?=true' -prom-env 'vga-ndrv?=true' -drive file=[LOCATION OF 10.1/10.2 ISO FILE],format=raw,media=cdrom -drive file=[LOCATION OF DISK IMAGE FILE],format=raw,media=disk -device adb-mouse -device adb-keyboard
+                        After executing, a QEMU window should be displayed and the Mac OS X 10.1/10.2 ISO file will begin to boot the installer (for this example, I’m using OS X 10.1, but the steps for 10.2 should be the same). Once booted, navigate to the “Installer” drop down on the top left hand corner of the screen and select “Open Disk Utility…”.
+                        
+                        
+                        Following this, the Disk Utility application should open. Once there, navigate to “Drive Setup”.
+                        
+                        
+                        Here, select the disk “/dev/disk0”. The resulting information displayed should look something like this:
+                        
+                        
+                        From here, navigate to “Partition” and make sure your settings are the same as pictured below (except the name, you can name the drive anything you want).
+                        
+                        
+                        Select “Partition” to format the drive. You may be prompted with a warning, simply ignore it and press the “Partition” button again. Once finished, the drive should now be formatted. Back in the Terminal, feel free to terminate this QEMU instance now by hitting “Ctrl+C” on your keyboard.
+                        
+                        Awesome! We’ve now successfully formatted our drive. Now we can begin the process of installing the Mac OS X Public Beta.
+                        
+                        In order to begin the installation process, enter the following command:
+                        
+                        $ qemu-system-ppc -L openbios-ppc -boot d -M mac99 -m 1024 -prom-env 'auto-boot?=true' -prom-env 'vga-ndrv?=true' -drive file=[LOCATION OF PUBLIC BETA ISO],format=raw,media=cdrom -drive file=[LOCATION OF DISK IMAGE FILE],format=raw,media=disk -device adb-mouse -device adb-keyboard
+                        After executing, a QEMU window should be displayed and the Public Beta installation ISO will begin booting. Once booted, skip through the different installation steps until you reach the “Select a Destination” screen. Here, you should be able to see the drive we formatted earlier, with the name we gave it before formatting, in my instance “blah”.
+                        
+                        
+                        Here, press “Continue” and then “Install”. Following this, the installer will begin installing the Public Beta to our drive.
+                        
+                        
+                        If the installation was successful, you should be greeted with a message saying something like “The software was successfully installed” with a “Restart” button present. Instead of pressing “Restart”, simply navigate back to your Terminal and once again hit Ctrl+C to close this instance of QEMU.
+                        
+                        In order to boot the Mac OS X Public Beta, which is now installed to our disk image file, we will have to trick it into thinking it is a time before May 14th, 2001. The reason for this is simple – the Public Beta was a limited trial release, and officially expired on May 14th, 2001. Hence, if the OS believes it is a time after this date, once you complete setup and enter your credentials to login, you will be presented with a message informing you that the Beta has expired and is no longer supported.
+                        
+                        To get around this, enter the command below:
+                        
+                        $ qemu-system-ppc -L openbios-ppc -M mac99 -m 1024 -prom-env 'auto-boot?=true' -prom-env 'vga-ndrv?=true' -drive file=[LOCATION OF DISK IMAGE FILE],format=raw,media=disk -device adb-mouse -device adb-keyboard -net none -rtc base='2000-12-01' 
+                        You may have noticed we are including the arguments -net none and -rtc base='2000-12-01'.
+                        
+                        The -rtc argument is necessary in order to tell the EFI to set the real time clock to the date December 1st, 2000 on boot. Once the OS has booted, the clock will begin counting upwards from this date. However, this isn’t the only obstacle standing in our way. Once you attempt to login after the system has booted, the OS will call the Apple time server and reset the clock to the present day. In order to avoid this, we set -net none in order to disable network connections.
+                        
+                        After executing this command, the Public Beta will begin booting and you will be presented with a setup screen. Simply step through the setup process and login with your chosen credentials, and you have successfully installed the Mac OS X Public Beta!
+                    </p>
+                </div>
             </div>
-            <div class="item1">
-                <p>/projects</p>
-            </div>
-            <div class="item1">
-                <p>/blog</p>
-            </div>
-        </div>
-        <div class="rectangle">
-            <p>This is the text inside the rectangle.</p>
-        </div>
         </div>
         <script>
             const button = document.getElementById('myButton');
             const text = document.getElementById('myMenu');
-            let animationPaused = false;
+            let menuVisible = true;
             // Add a click event listener to the button
             button.addEventListener('click', function() {
-            // Toggle the 'active' class on the element
-                text.classList.toggle('menu-animated');
-                text.classList.remove('hidden');
+                menuVisible = !menuVisible;
+                
+                if(menuVisible) {
+                    text.classList.remove('menu-animated');
+                    text.classList.add('hidden');
+                } else {
+                    text.classList.add('menu-animated');
+                    text.classList.remove('hidden');
+                }
             });
+
+            // const button = document.getElementById("myButton");
+            // const text = document.getElementById('myMenu');
+            // let menuVisible = false;
+
+            // function myFunction() {
+            //     menuVisible = !menuVisible;
+                
+            //     if(menuVisible) {
+            //         text.classList.remove('menu-animated');
+            //         text.classList.add('hidden');
+            //     } else {
+            //         text.classList.add('menu-animated');
+            //         text.classList.remove('hidden');
+            //         // text.classList.add('menu-animated-inverse');
+            //     }
+            // }
         </script>
 
         <div class="footer">
