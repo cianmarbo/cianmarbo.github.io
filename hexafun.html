@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="styles.css"/></link>
+    </head>
+    <body>
+        <div id="myButton" class="blog-title">
+            <h1>hexafun</h1>
+        </div>
+        <div class="sub-title">
+            <p>a programming and computer hobbyist blog</p>
+        </div>
+
+        <div class="site-container">
+            <div class="menu-container">
+                <div id="myMenu" class="hidden">
+                    <div class="item1">
+                        <a href="index.html"><p>/home</p></a>
+                    </div>
+                    <div class="item1">
+                        <p>/resume</p>
+                    </div>
+                    <div class="item1">
+                        <p>/projects</p>
+                    </div>
+                    <div class="item1">
+                        <a href="hexafun.html"><p>/blog</p></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-box-container">
+                <div class="post-list">
+                </div>
+            </div>
+        </div>
+        <script>
+            const button = document.getElementById('myButton');
+            const text = document.getElementById('myMenu');
+            let menuVisible = true;
+            // Add a click event listener to the button
+            button.addEventListener('click', function() {
+                menuVisible = !menuVisible;
+                
+                if(menuVisible) {
+                    text.classList.remove('menu-animated');
+                    text.classList.add('hidden');
+                } else {
+                    text.classList.add('menu-animated');
+                    text.classList.remove('hidden');
+                }
+            });
+
+            // const button = document.getElementById("myButton");
+            // const text = document.getElementById('myMenu');
+            // let menuVisible = false;
+
+            // function myFunction() {
+            //     menuVisible = !menuVisible;
+                
+            //     if(menuVisible) {
+            //         text.classList.remove('menu-animated');
+            //         text.classList.add('hidden');
+            //     } else {
+            //         text.classList.add('menu-animated');
+            //         text.classList.remove('hidden');
+            //         // text.classList.add('menu-animated-inverse');
+            //     }
+            // }
+        </script>
+
+        <div class="footer">
+            <h3>hexafun, by @cianmarbo</h3>
+        </div>
+    </body>
+</html>

@@ -8,7 +8,20 @@
     src: url(fonts/VT323/VT323-Regular.ttf);
 }
 
-.title {
+.main-title {
+    margin-left: 5%;
+    font-size: 32px;
+    font-family: -apple-system,BlinkMacSystemFont,"Roboto","Segoe UI","Helvetica Neue","Lucida Grande",Arial,sans-serif;
+    color: #5d80ef;
+}
+
+@media only screen and (max-width: 640px) {
+    .main-title {
+        font-size: 20px;
+    }
+  }
+
+.blog-title {
     margin-left: 5%;
     font-size: 32px;
     font-family: Zilla_Slab_Highlight;
@@ -20,8 +33,15 @@
     margin-top: -45px;
     margin-left: 5%;
     font-family: Arial, Helvetica, sans-serif;
-    font-size:  14px;
+    font-size:  24px;
 }
+
+@media only screen and (max-width: 640px) {
+    .sub-title {
+        font-size: 18px;
+        margin-top: -25px;
+    }
+  }
 
 .footer {
     position: fixed;
@@ -54,7 +74,7 @@
 .site-container {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    /* gap: 20px; */
 }
 
 .menu-container {
@@ -64,6 +84,8 @@
 
 .text-box-container {
     margin-top: 0%;
+    width: 100%;
+    margin-right: 5%;
 }
 
 .menu-animated {
@@ -76,8 +98,9 @@
     position: relative;
     animation: mymove 0.2s;
     animation-fill-mode: forwards;
-    /* background-color: crimson; */
+    /* background-color: #5d80ef; */
     box-shadow: 5px 5px;
+    margin-right: 16px;
 }
 
 @keyframes mymove {
@@ -89,25 +112,14 @@
     }
 }
 
-.menu-animated-inverse {
+.post-list {
     border: 2px solid black;
     border-radius: 7px;
     font-family: VT323;
     font-size: 24px;
-    text-align: center;
-    width: 90px;
-    position: relative;
-    animation: mymoveback 0.3s;
-    animation-fill-mode: forwards;
-}
-
-@keyframes mymoveback {
-    from {
-        top: 0px;
-    }
-    to {
-        top: -1000px;
-    }
+    /* position: relative; */
+    box-shadow: 5px 5px;
+    height: 300px;
 }
 
 .rectangle {
@@ -117,7 +129,6 @@
     color: white;
     border-radius: 7px;
     padding: 20px;
-    width: 80%;
     height: 300px;
     overflow: auto;
     /* transition: width 0.3s, height 0.3s; */
